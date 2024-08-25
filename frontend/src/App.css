@@ -30,8 +30,8 @@
   font-weight: bold;
   background: linear-gradient(
     90deg,
-    var(--color-pink) 0%,
-    var(--color-pink) 29%,
+    var(--color-white) 0%,
+    var(--color-white) 29%,
     var(--color-teal) 30%,
     var(--color-teal) 35%,
     var(--color-red) 37%,
@@ -40,4 +40,16 @@
   background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
+}
+.call {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  border: 2px solid var(--blue20);
+  padding: 4rem 2rem;
+  border-radius: 5px;
+}
+.call h3 {
+  text-align: center;
 }

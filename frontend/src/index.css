@@ -4,7 +4,7 @@
   --white50: #e0dede;
   --color-teal: #47beba;
   --color-pink: #ff3bf0;
-  --color-red: #f22e52;
+  --color-red: #ff3bf0;
   --blue50: #230874;
   --blue20: #310c9e;
   color: var(--color-white);
@@ -22,7 +22,7 @@ a {
   color: var(--color-white);
 }
 a:hover {
-  color: var(--color-teal);
+  color: var(--color-red);
 }
 
 body {

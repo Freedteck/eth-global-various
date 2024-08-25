@@ -1,3 +1,6 @@
+.hero {
+  border-bottom: 1px solid var(--blue50);
+}
 .banner {
   padding: 4rem 2rem;
   display: flex;
