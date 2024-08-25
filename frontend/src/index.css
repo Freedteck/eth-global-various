@@ -1,0 +1,70 @@
+:root {
+  --primary-color: #160647;
+  --color-white: #ffffff;
+  --white50: #e0dede;
+  --color-teal: #47beba;
+  --color-pink: #ff3bf0;
+  --color-red: #f22e52;
+  --blue50: #230874;
+  --blue20: #310c9e;
+  color: var(--color-white);
+}
+* {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+}
+a {
+  font-weight: 500;
+  color: var(--color-white);
+}
+a:hover {
+  color: var(--color-teal);
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--primary-color);
+}
+
+h1 {
+  font-size: 4rem;
+  line-height: 1.1;
+}
+h2 {
+  font-size: 3rem;
+  line-height: 1.1;
+}
+h3 {
+  font-size: 2rem;
+  line-height: 1.1;
+}
+h4 {
+  font-size: 1.5rem;
+  line-height: 1.1;
+}
+button {
+  border-radius: 5px;
+  color: var(--color-white);
+  border: 1px solid transparent;
+  padding: 10px 30px;
+  font-size: 1em;
+  font-weight: 600;
+  font-family: inherit;
+  background-color: var(--color-teal);
+  cursor: pointer;
+  transition: background-color 0.25s;
+}
+button:hover {
+  border-color: var(--color-teal);
+  background-color: transparent;
+  color: var(--color-teal);
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}

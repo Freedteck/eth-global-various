@@ -1,0 +1,9 @@
+.faq {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 5rem 2rem;
+}
+.faq h3 {
+  text-align: center;
+}

@@ -1,0 +1,17 @@
+.navbar-header {
+  border-bottom: 1px solid var(--blue50);
+  position: sticky;
+  top: 0;
+  background-color: var(--primary-color);
+}
+nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+}
+nav ul {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}

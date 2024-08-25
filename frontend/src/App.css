@@ -1,0 +1,43 @@
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+}
+.row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 32px;
+}
+.card {
+  display: flex;
+  gap: 32px;
+  border-radius: 5px;
+  border: 2px solid var(--blue50);
+  padding: 32px;
+  align-items: flex-start;
+}
+.card .icon {
+  border-radius: 5px;
+  font-size: 2rem;
+}
+.card .info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.logo a {
+  font-size: 2rem;
+  font-weight: bold;
+  background: linear-gradient(
+    90deg,
+    var(--color-pink) 0%,
+    var(--color-pink) 29%,
+    var(--color-teal) 30%,
+    var(--color-teal) 35%,
+    var(--color-red) 37%,
+    var(--color-red) 100%
+  );
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
