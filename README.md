@@ -3,6 +3,8 @@
 # EthVarious
 AI based Analyse smart contract coed files, Contract Address to detect vulnerabilities and other breaches, automatically code edit and result the reports.
 
+### [Demo](https://eth-various.vercel.app/#)
+
 ## Why need the EthVarious?
 As the blockchain technology and cryptocurrency markets continue to grow, security issues and malicious activities are also on the rise. 
 Phishing, scams, and malicious contract codes are major concerns, especially as they often originate from compromised smart contract code and wallet approvals. 
