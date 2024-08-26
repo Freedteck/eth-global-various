@@ -1,11 +1,14 @@
 import "../styles/navbar.css";
+import logo from "../assets/logo.png";
 
-const Navbar = () => {
+const Navbar = ({ login, isLoggedIn, balance, user, logout }) => {
   return (
     <header className="navbar-header">
       <nav className="container">
         <div className="logo">
-          <a href="/">Eth-various</a>
+          <a href="/">
+            <img src={logo} alt="logo" />
+          </a>
         </div>
         <ul>
           <li>
@@ -20,8 +23,10 @@ const Navbar = () => {
           <li>
             <a href="#">FAQ</a>
           </li>
+          {isLoggedIn && <li className="balance">{balance} HBAR</li>}
           <li>
-            <button>Connect</button>
+            {!isLoggedIn && <button onClick={login}>Connect</button>}
+            {isLoggedIn && <button onClick={logout}>{user}</button>}
           </li>
         </ul>
       </nav>

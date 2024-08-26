@@ -8,6 +8,12 @@
       src="https://kit.fontawesome.com/3ee798e7d5.js"
       crossorigin="anonymous"
     ></script>
+    <script type="module">
+      import { Buffer } from "buffer";
+      import process from "process";
+      window.Buffer = Buffer;
+      window.process = process;
+    </script>
     <title>Eth Various</title>
   </head>
   <body>

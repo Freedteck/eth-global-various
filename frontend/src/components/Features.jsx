@@ -65,18 +65,6 @@ const Features = () => {
             </p>
           </div>
         </div>
-        <div className="card">
-          <div className="icon">
-            <i className="fa-solid fa-screwdriver-wrench"></i>
-          </div>
-          <div className="info">
-            <h4>Customizable Settings</h4>
-            <p>
-              Tailor the analysis and sensitivity to focus on specific needs and
-              code aspects.
-            </p>
-          </div>
-        </div>
       </div>
     </div>
   );

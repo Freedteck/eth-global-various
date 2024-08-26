@@ -25,21 +25,11 @@
   flex-direction: column;
   gap: 20px;
 }
-.logo a {
-  font-size: 2rem;
-  font-weight: bold;
-  background: linear-gradient(
-    90deg,
-    var(--color-white) 0%,
-    var(--color-white) 29%,
-    var(--color-teal) 30%,
-    var(--color-teal) 35%,
-    var(--color-red) 37%,
-    var(--color-red) 100%
-  );
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
+.logo {
+  width: 200px;
+}
+.logo img {
+  width: 100%;
 }
 .call {
   display: flex;
