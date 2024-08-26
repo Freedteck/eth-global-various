@@ -1,11 +1,11 @@
-![Logo- Smart various](https://github.com/user-attachments/assets/d1ca2a0e-c6ef-48b4-9d7a-502b23dccbe9)
+![image](https://github.com/user-attachments/assets/44dc0540-1bf7-434d-9777-7fc66a9809b5)
 
-# EthVarious
+# ETH Various
 AI based Analyse smart contract coed files, Contract Address to detect vulnerabilities and other breaches, automatically code edit and result the reports.
 
 ### [Demo](https://eth-various.vercel.app/#)
 
-## Why need the EthVarious?
+## Why need the ETH Various?
 As the blockchain technology and cryptocurrency markets continue to grow, security issues and malicious activities are also on the rise. 
 Phishing, scams, and malicious contract codes are major concerns, especially as they often originate from compromised smart contract code and wallet approvals. 
 In response to this, we propose an AI-powered platform for analyzing, modifying, and improving smart contract codes, providing detailed reports on identified issues and applied fixes.
