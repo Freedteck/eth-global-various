@@ -24,6 +24,9 @@ a {
 a:hover {
   color: var(--color-red);
 }
+a.active {
+  color: var(--color-red);
+}
 
 body {
   min-width: 320px;

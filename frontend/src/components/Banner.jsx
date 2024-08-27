@@ -1,6 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import "../styles/banner.css";
+import PropTypes from "prop-types";
 
-const Banner = () => {
+const Banner = ({ loggedIn }) => {
+  const navigate = useNavigate();
   return (
     <div className="hero">
       <div className="container banner">
@@ -16,12 +19,19 @@ const Banner = () => {
           </p>
         </div>
         <div className="ctas">
-          <button>Get Started</button>
+          {!loggedIn && <button>Get Started</button>}
+          {loggedIn && (
+            <button onClick={() => navigate("upload")}>Upload</button>
+          )}
           <button className="cta">How It Works</button>
         </div>
       </div>
     </div>
   );
+};
+
+Banner.propTypes = {
+  loggedIn: PropTypes.bool,
 };
 
 export default Banner;

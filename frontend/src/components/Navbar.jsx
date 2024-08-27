@@ -1,5 +1,7 @@
 import "../styles/navbar.css";
 import logo from "../assets/logo.png";
+import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
 
 const Navbar = ({ login, isLoggedIn, balance, user, logout }) => {
   return (
@@ -12,16 +14,36 @@ const Navbar = ({ login, isLoggedIn, balance, user, logout }) => {
         </div>
         <ul>
           <li>
-            <a href="#">Upload</a>
+            <NavLink
+              to="/upload"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Upload
+            </NavLink>
           </li>
           <li>
-            <a href="#">Features</a>
+            <NavLink
+              to="/features"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Features
+            </NavLink>
           </li>
           <li>
-            <a href="#">How it works</a>
+            <NavLink
+              to="/how-it-works"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              How it works
+            </NavLink>
           </li>
           <li>
-            <a href="#">FAQ</a>
+            <NavLink
+              to="/faq"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              FAQ
+            </NavLink>
           </li>
           {isLoggedIn && <li className="balance">{balance} HBAR</li>}
           <li>
@@ -32,6 +54,14 @@ const Navbar = ({ login, isLoggedIn, balance, user, logout }) => {
       </nav>
     </header>
   );
+};
+
+Navbar.propTypes = {
+  login: PropTypes.func.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
+  balance: PropTypes.number,
+  user: PropTypes.string,
+  logout: PropTypes.func.isRequired,
 };
 
 export default Navbar;

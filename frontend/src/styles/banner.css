@@ -1,5 +1,5 @@
-.banner {
-  padding: 4rem 2rem;
+div.banner {
+  padding: 5rem 2rem;
   display: flex;
   flex-direction: column;
   gap: 48px;

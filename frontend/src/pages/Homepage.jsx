@@ -3,13 +3,13 @@ import Call from "../components/Call";
 import Faq from "../components/Faq";
 import Features from "../components/Features";
 import HowItWorks from "../components/HowItWork";
+import PropTypes from "prop-types";
 import "../styles/homepage.css";
-// import robot from "../assets/smart-robot.png";
 
-const Homepage = () => {
+const Homepage = ({ loggedIn }) => {
   return (
     <div className="home">
-      <Banner />
+      <Banner loggedIn={loggedIn} />
       <div className="bg container">
         {/* <img src={robot} alt="" width={200} /> */}
       </div>
@@ -19,6 +19,10 @@ const Homepage = () => {
       <Call />
     </div>
   );
+};
+
+Homepage.propTypes = {
+  loggedIn: PropTypes.bool,
 };
 
 export default Homepage;
