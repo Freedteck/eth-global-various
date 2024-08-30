@@ -16,6 +16,20 @@ In response to this, we propose an AI-powered platform for analyzing, modifying,
 3. **Detailed Reporting**: The platform generates comprehensive reports detailing the issues found, modifications made, and explanations to help users understand the improvements.
 4. **Ease of Use**: Unlike existing professional auditing firms like Certik and Hacken, our platform offers a preliminary self-audit service that is easily accessible. This allows developers and project teams to address security issues early in the development process, making the final professional audit more efficient and streamlined.
 
+## User Flow
+```mermaid
+graph TD;
+    Sign-In/Sign-Up-->FileUpload;
+    Sign-In/Sign-Up-->Copy/PasteText;
+    Copy/PasteText-->AI-Ananlysis;
+    FileUpload-->AI-Ananlysis;
+    AI-Ananlysis-->Result;
+    Result-->FileDownload;
+    Result-->AutoDeploy;
+    Result-->Re-Ananlysis;
+    Re-Ananlysis-->AI-Ananlysis;
+```
+
 ## User Journey
 1. **Discovery:** A Web3 beginner or blockchain enthusiast learns about Smart Various via social media or word-of-mouth, recognizing its potential to analyze and secure smart contracts.
 2. **Onboarding:** The user visits the website, signs up using Web3auth, and uploads their smart contract code for analysis.
