@@ -21,13 +21,13 @@ In response to this, we propose an AI-powered platform for analyzing, modifying,
 graph TD;
     Sign-In/Sign-Up-->File-Upload;
     Sign-In/Sign-Up-->Copy/Paste-Text;
-    Copy/Paste-Text-->AI-Ananlysis;
-    File-Upload-->AI-Ananlysis;
-    AI-Ananlysis-->Result;
+    Copy/Paste-Text-->AI-Analysis;
+    File-Upload-->AI-Analysis;
+    AI-Analysis-->Result;
     Result-->File-Download;
     Result-->Auto-Deploy;
-    Result-->Re-Ananlysis;
-    Re-Ananlysis-->AI-Ananlysis;
+    Result-->Re-Analysis;
+    Re-Analysis-->AI-Analysis;
     File-Download-->Display-the-History;
     Auto-Deploy-->Display-the-History;
 ```
