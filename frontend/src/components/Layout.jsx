@@ -23,7 +23,7 @@ Layout.propTypes = {
   login: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   balance: PropTypes.number,
-  user: PropTypes.string,
+  user: PropTypes.object,
   logout: PropTypes.func.isRequired,
 };
 

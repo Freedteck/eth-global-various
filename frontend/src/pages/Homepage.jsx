@@ -6,7 +6,7 @@ import HowItWorks from "../components/HowItWork";
 import PropTypes from "prop-types";
 import "../styles/homepage.css";
 
-const Homepage = ({ loggedIn }) => {
+const Homepage = ({ loggedIn, logIn }) => {
   return (
     <div className="home">
       <Banner loggedIn={loggedIn} />
@@ -16,13 +16,14 @@ const Homepage = ({ loggedIn }) => {
       <Features />
       <HowItWorks />
       <Faq />
-      <Call />
+      <Call loggedIn={loggedIn} logIn={logIn} />
     </div>
   );
 };
 
 Homepage.propTypes = {
   loggedIn: PropTypes.bool,
+  logIn: PropTypes.func.isRequired,
 };
 
 export default Homepage;

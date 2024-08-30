@@ -7,6 +7,7 @@ import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import { CHAIN_NAMESPACES, WEB3AUTH_NETWORK } from "@web3auth/base";
 import HEDERA from "../clients/viemHedera";
 import { useEffect, useState } from "react";
+import Profile from "../pages/Profile.jsx";
 
 const clientId =
   "BFBDKROkBydyikVmnzoCq_eiin-Rwj-LUUdYtF1wIChjeHi5zHpyVQvNjMH-3FmQEeapcfOLn3k9WHtcTmdowu0";
@@ -35,8 +36,9 @@ const web3auth = new Web3Auth({
 function RootComponent() {
   const [provider, setProvider] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState(null);
   const [balance, setBalance] = useState(null);
+  const [address, setAddress] = useState(null);
 
   useEffect(() => {
     const init = async () => {
@@ -59,7 +61,9 @@ function RootComponent() {
     const getUserInfo = async () => {
       if (loggedIn) {
         const user = await web3auth.getUserInfo();
-        setUser(user.name);
+        console.log(user);
+
+        setUser(user);
       }
     };
 
@@ -75,7 +79,18 @@ function RootComponent() {
       const balance = await HEDERA.getBalance(provider);
       setBalance(parseInt(balance));
     };
+
+    const getAccount = async () => {
+      if (!loggedIn) {
+        console.log("Login first");
+        return;
+      }
+      const newAddress = await HEDERA.getAccounts(provider);
+
+      setAddress(newAddress.toString());
+    };
     getBalance();
+    getAccount();
   }, [loggedIn, provider]);
 
   const login = async () => {
@@ -106,8 +121,12 @@ function RootComponent() {
         />
       ),
       children: [
-        { path: "/", element: <App loggedIn={loggedIn} /> },
+        { path: "/", element: <App loggedIn={loggedIn} logIn={login} /> },
         { path: "upload", element: <Upload /> },
+        {
+          path: "profile",
+          element: <Profile user={user} balance={balance} address={address} />,
+        },
       ],
     },
   ]);
