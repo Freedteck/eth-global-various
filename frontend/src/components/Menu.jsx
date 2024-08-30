@@ -2,6 +2,10 @@ import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 
 const Menu = ({ user, logout, closeMenu }) => {
+  const handleLogout = async () => {
+    await logout();
+    closeMenu();
+  };
   return (
     <div className="menu">
       <ul>
@@ -26,7 +30,7 @@ const Menu = ({ user, logout, closeMenu }) => {
             Settings
           </NavLink>
         </li>
-        <li onClick={logout}>Logout</li>
+        <li onClick={handleLogout}>Logout</li>
       </ul>
     </div>
   );
