@@ -19,15 +19,17 @@ In response to this, we propose an AI-powered platform for analyzing, modifying,
 ## User Flow
 ```mermaid
 graph TD;
-    Sign-In/Sign-Up-->FileUpload;
-    Sign-In/Sign-Up-->Copy/PasteText;
-    Copy/PasteText-->AI-Ananlysis;
-    FileUpload-->AI-Ananlysis;
+    Sign-In/Sign-Up-->File-Upload;
+    Sign-In/Sign-Up-->Copy/Paste-Text;
+    Copy/Paste-Text-->AI-Ananlysis;
+    File-Upload-->AI-Ananlysis;
     AI-Ananlysis-->Result;
-    Result-->FileDownload;
-    Result-->AutoDeploy;
+    Result-->File-Download;
+    Result-->Auto-Deploy;
     Result-->Re-Ananlysis;
     Re-Ananlysis-->AI-Ananlysis;
+    File-Download-->Display-the-History;
+    Auto-Deploy-->Display-the-History;
 ```
 
 ## User Journey
