@@ -11,10 +11,18 @@ As the blockchain technology and cryptocurrency markets continue to grow, `secur
 In response to this, we propose an **`AI-powered platform for analyzing, modifying, and improving smart contract codes, providing detailed reports on identified issues and applied fixes`**.
 
 ## Our Solution
-1. **Preventive Security Checks**: Users upload their smart contract code, which the AI analyzes for security vulnerabilities, code flaws, and potential scams.
-2. **Automated Corrections and Enhancements**: Based on the analysis, the AI suggests and implements modifications to improve the contract code, including applying security patches and optimizing performance.
-3. **Detailed Reporting**: The platform generates comprehensive reports detailing the issues found, modifications made, and explanations to help users understand the improvements.
-4. **Ease of Use**: Unlike existing professional auditing firms like Certik and Hacken, our platform offers a preliminary self-audit service that is easily accessible. This allows developers and project teams to address security issues early in the development process, making the final professional audit more efficient and streamlined.
+> **Preventive Security Checks**
+
+- Users upload their smart contract code, which the AI analyzes for security vulnerabilities, code flaws, and potential scams.
+> **Automated Corrections and Enhancements**
+
+- Based on the analysis, the AI suggests and implements modifications to improve the contract code, including applying security patches and optimizing performance.
+> **Detailed Reporting**
+
+- The platform generates comprehensive reports detailing the issues found, modifications made, and explanations to help users understand the improvements.
+> **Ease of Use**
+  
+- Unlike existing professional auditing firms like Certik and Hacken, our platform offers a preliminary self-audit service that is easily accessible. This allows developers and project teams to address security issues early in the development process, making the final professional audit more efficient and streamlined.
 
 ## User Flow
 ```mermaid
