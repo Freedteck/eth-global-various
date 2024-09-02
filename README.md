@@ -68,7 +68,7 @@ graph TD;
 8. **Continuous Platform Use**:
    - Users continuously use the platform to analyze and improve various smart contract codes, enhancing the security and optimization of their Web3 applications.
 
-### Through this journey, ETH Various helps users continuously improve the security and quality of their smart contracts.
+#### Through this journey, ETH Various helps users continuously improve the security and quality of their smart contracts.
 
 ## Goal
 Our ultimate goal is to provide an accessible environment where `anyone can easily engage with` and `learn about Web3 development`. 
