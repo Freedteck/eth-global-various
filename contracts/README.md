@@ -1,6 +1,6 @@
 # Smart Various Contract
 
-This project showcases the deployment and interaction with various smart contract. It includes two key scripts: one for deploying the smart contract and another for calling its functions once deployed.
+This project showcases the deployment and interaction with Various smart contract. It includes two key scripts: one for deploying the smart contract and another for calling its functions once deployed.
 
 Here’s how to set it up:
 
