@@ -20,7 +20,7 @@ async function main() {
   const contractAddress = await getUserInput(
     "Enter Deployed Contract Address: "
   );
-  if (!contractAddress) throw Error("Missing AGENT_CONTRACT_ADDRESS in .env");
+  if (!contractAddress) throw Error("Missing Contract Address");
 
   const provider = new ethers.JsonRpcProvider(rpcUrl);
   const wallet = new Wallet(privateKey, provider);
