@@ -8,6 +8,7 @@ import { CHAIN_NAMESPACES, WEB3AUTH_NETWORK } from "@web3auth/base";
 import HEDERA from "../clients/viemHedera";
 import { useEffect, useState } from "react";
 import Profile from "../pages/Profile.jsx";
+import Result from "../pages/Result.jsx";
 
 const clientId =
   "BFBDKROkBydyikVmnzoCq_eiin-Rwj-LUUdYtF1wIChjeHi5zHpyVQvNjMH-3FmQEeapcfOLn3k9WHtcTmdowu0";
@@ -126,6 +127,10 @@ function RootComponent() {
         {
           path: "profile",
           element: <Profile user={user} balance={balance} address={address} />,
+        },
+        {
+          path: "result",
+          element: <Result />,
         },
       ],
     },
