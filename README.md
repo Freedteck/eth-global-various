@@ -45,7 +45,7 @@ graph TD;
 
 ## User Journey
 1. **User Registration and Login**:
-   - Users register and log in to the ETH Various platform.
+   - Users register and log-in to the ETH Various platform.
 
 2. **Upload Smart Contract Code**:
    - Users upload the smart contract code they want to analyze, either by copying and pasting or by uploading a file.
