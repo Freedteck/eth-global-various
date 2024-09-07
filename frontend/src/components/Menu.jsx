@@ -26,6 +26,11 @@ const Menu = ({ user, logout, closeMenu }) => {
           </NavLink>
         </li>
         <li>
+          <NavLink to="/upload" onClick={closeMenu}>
+            Upload
+          </NavLink>
+        </li>
+        <li>
           <NavLink to="/settings" onClick={closeMenu}>
             Settings
           </NavLink>

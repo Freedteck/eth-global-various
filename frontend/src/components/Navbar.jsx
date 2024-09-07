@@ -23,14 +23,6 @@ const Navbar = ({ login, isLoggedIn, balance, user, logout }) => {
         <ul>
           <li>
             <NavLink
-              to="/upload"
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              Upload
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
               to="/features"
               className={({ isActive }) => (isActive ? "active" : "")}
             >
