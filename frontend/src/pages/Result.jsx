@@ -1,48 +1,101 @@
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "../styles/result.css";
+import HEDERA from "../clients/viemHedera";
+import { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import PropTypes from "prop-types";
 
-const Result = () => {
-  const location = useLocation();
-  const { response } = location.state || {};
+// Helper function to decode and replace newline characters
+const decodeContent = (content) => {
+  // Decode any URI encoding issues
+  let decodedContent = decodeURIComponent(content);
 
-  // Helper function to format JSON with indentation and syntax highlighting
-  const formatJson = (json) => {
-    if (typeof json !== "string") {
-      json = JSON.stringify(json, null, 2);
-    }
-    return json
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(
-        /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
-        (match) => {
-          let cls = "number";
-          if (/^"/.test(match)) {
-            if (/:$/.test(match)) {
-              cls = "key";
-            } else {
-              cls = "string";
-            }
-          } else if (/true|false/.test(match)) {
-            cls = "boolean";
-          } else if (/null/.test(match)) {
-            cls = "null";
+  // Replace escaped newlines with actual newlines for Markdown
+  decodedContent = decodedContent.replace(/\\n/g, "\n");
+
+  return decodedContent;
+};
+
+const Result = ({ getAllFiles, address }) => {
+  const { fileId } = useParams();
+  const [messages, setMessages] = useState([]);
+  const [file, setFile] = useState(null);
+
+  useEffect(() => {
+    const getMessages = async () => {
+      if (address) {
+        try {
+          // Fetch messages from Hedera
+          const response = await HEDERA.fetchMessages();
+
+          // Fetch account data from mirror node
+          const accountResponse = await fetch(
+            `https://testnet.mirrornode.hedera.com/api/v1/accounts/${address}`,
+            { mode: "cors" }
+          );
+
+          if (!accountResponse.ok) {
+            throw new Error(
+              `Account fetch failed: ${accountResponse.statusText}`
+            );
           }
-          return `<span class="${cls}">${match}</span>`;
+
+          const accountData = await accountResponse.json();
+
+          // Filter messages based on sender
+          const messages = response.filter(
+            (msg) => msg.sender === accountData.account
+          );
+
+          setMessages(messages);
+        } catch (error) {
+          console.error("Error in getMessages:", error);
         }
-      );
-  };
+      }
+    };
+
+    getMessages();
+  }, [address]);
+
+  useEffect(() => {
+    // Fetch files once messages are successfully fetched
+    const fetchFiles = async () => {
+      if (messages.length > 0) {
+        try {
+          const files = await getAllFiles(messages);
+          const selectedFile = files.find((file) => file.fileId === fileId);
+          if (selectedFile) {
+            setFile(selectedFile);
+          }
+        } catch (error) {
+          console.error("Error fetching files:", error);
+        }
+      }
+    };
+
+    if (fileId) {
+      fetchFiles();
+    }
+  }, [getAllFiles, messages, fileId]);
 
   return (
-    <div className="result-container">
+    <div className="container result-container">
       <h2>Analysis Result</h2>
-      <pre
-        dangerouslySetInnerHTML={{ __html: formatJson(response) }}
-        className="json-result"
-      ></pre>
+      <pre className="json-result">
+        {!file && <p>Loading...</p>}
+        {file && (
+          <ReactMarkdown>
+            {decodeContent(file.content.slice(1, -1))}
+          </ReactMarkdown>
+        )}
+      </pre>
     </div>
   );
+};
+
+Result.propTypes = {
+  getAllFiles: PropTypes.func.isRequired,
+  address: PropTypes.string,
 };
 
 export default Result;

@@ -2,10 +2,11 @@ import { useState } from "react";
 import "../styles/upload.css";
 import smartSec from "../assets/smart-sec.png";
 import { main } from "../scripts/callVarious";
-import Loading from "./Loading"; // New loading component
-import { useNavigate } from "react-router-dom"; // Assuming you're using React Router
+import Loading from "./Loading";
+import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
-const Upload = () => {
+const Upload = ({ uploadFileToHedera, sendMessage }) => {
   const [activeTab, setActiveTab] = useState("upload");
   const [file, setFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,9 +31,21 @@ const Upload = () => {
       setIsLoading(true);
       const reader = new FileReader();
       reader.onload = async (e) => {
-        const response = await main(e.target.result);
-        setIsLoading(false);
-        navigate("/result", { state: { response } }); // Navigate to result page with response
+        try {
+          const response = await main(e.target.result); // Ensure `main` returns valid data
+
+          const fileId = await uploadFileToHedera(JSON.stringify(response));
+          if (!fileId) {
+            throw new Error("File upload failed.");
+          }
+
+          await sendMessage(fileId, file.name);
+          navigate(`/result/${fileId}`, { state: { fileId } });
+        } catch (error) {
+          console.error("Error in handleAnalyse:", error);
+        } finally {
+          setIsLoading(false);
+        }
       };
       reader.readAsText(file);
     } else {
@@ -88,6 +101,11 @@ const Upload = () => {
       {isLoading && <Loading />}
     </div>
   );
+};
+
+Upload.propTypes = {
+  uploadFileToHedera: PropTypes.func.isRequired,
+  sendMessage: PropTypes.func.isRequired,
 };
 
 export default Upload;

@@ -19,7 +19,7 @@ async function main(fileContent: string) {
   const wallet = new Wallet(privateKey, provider);
   const contract = new Contract(contractAddress, ABI, wallet);
 
-  const maxIterations = 4;
+  const maxIterations = 1;
 
   // Use the fileContent directly as the uploadedContract
   const uploadedContract = fileContent;

@@ -1,11 +1,57 @@
-import { Web3Auth } from "@web3auth/modal";
-import {
-  createPublicClient,
-  createWalletClient,
-  custom,
-  parseEther,
-} from "viem";
+import { createPublicClient, createWalletClient, custom } from "viem";
 import { hederaTestnet } from "viem/chains";
+import {
+  FileCreateTransaction,
+  Client,
+  PrivateKey,
+  Hbar,
+  TopicCreateTransaction,
+  TopicMessageSubmitTransaction,
+  FileContentsQuery,
+} from "@hashgraph/sdk";
+
+let topicId = import.meta.env.VITE_TOPIC_ID;
+
+let cachedClient = null;
+
+// Initialize the Hedera client once and reuse it
+const getClient = async (provider) => {
+  if (!cachedClient) {
+    const [myAddress] = await getAccounts(provider);
+
+    const accountResponse = await fetch(
+      `https://testnet.mirrornode.hedera.com/api/v1/accounts/${myAddress}`,
+      { mode: "cors" }
+    );
+
+    if (!accountResponse.ok) {
+      throw new Error(
+        "Failed to fetch account information from Hedera Mirror Node."
+      );
+    }
+
+    const accountData = await accountResponse.json();
+    const myAccountId = accountData.account;
+
+    const myPrivateKeyHex = await provider.request({
+      method: "eth_private_key",
+    });
+
+    if (!myAccountId || !myPrivateKeyHex) {
+      throw new Error(
+        "Environment variables myAccountId and myPrivateKey must be present."
+      );
+    }
+
+    const operatorKey = PrivateKey.fromStringECDSA(myPrivateKeyHex);
+    const client = Client.forTestnet();
+    client.setOperator(myAccountId, operatorKey);
+
+    cachedClient = client; // Cache the client instance
+  }
+
+  return cachedClient;
+};
 
 // Get Accounts
 const getAccounts = async (provider) => {
@@ -40,157 +86,182 @@ const getBalance = async (provider) => {
   return balance / 1000000000000000000n;
 };
 
-// Send transaction
-const sendTransaction = async (provider, receipient, amountToSend) => {
-  const publicClient = createPublicClient({
-    chain: hederaTestnet, // for hederaTestnet
-    transport: custom(provider),
-  });
+async function sendMessage(provider, fileId, fileName) {
+  console.log("Sending message...");
+  const [myAddress] = await getAccounts(provider);
 
-  const walletClient = createWalletClient({
-    chain: hederaTestnet, // for hederaTestnet
-    transport: custom(provider),
-  });
+  const accountResponse = await fetch(
+    `https://testnet.mirrornode.hedera.com/api/v1/accounts/${myAddress}`,
+    { mode: "cors" }
+  );
 
-  // data for the transaction
-  const destination = receipient;
-  const amount = parseEther(`${amountToSend}`);
-  // const address = await this.getAccounts();
+  if (!accountResponse.ok) {
+    throw new Error(
+      "Failed to fetch account information from Hedera Mirror Node."
+    );
+  }
 
-  const address = await walletClient.getAddresses();
+  const accountData = await accountResponse.json();
+  const myAccountId = accountData.account;
 
-  // Submit transaction to the blockchain
-  const hash = await walletClient.sendTransaction({
-    account: address[0],
-    to: destination,
-    value: amount,
-  });
-
-  const receipt = await publicClient.waitForTransactionReceipt({ hash });
-  return receipt;
-};
-
-// Sign Message
-const signMessage = async (provider, message) => {
-  //   const publicClient = createPublicClient({
-  //     chain: hederaTestnet, // for hederaTestnet
-  //     transport: custom(provider),
-  //   });
-
-  const walletClient = createWalletClient({
-    chain: hederaTestnet, // for hederaTestnet
-    transport: custom(provider),
-  });
-
-  // data for signing
-  const address = await walletClient.getAddresses();
-  const originalMessage = message;
-
-  // Sign the message
-  const hash = await walletClient.signMessage({
-    account: address[0],
-    message: originalMessage,
-  });
-  return hash;
-};
-
-// Deploy Contract
-const deployContract = async (provider, contractABI, contractByteCode, arg) => {
-  const publicClient = createPublicClient({
-    chain: this.getViewChain(),
-    transport: custom(provider),
-  });
-
-  const walletClient = createWalletClient({
-    chain: hederaTestnet,
-    transport: custom(provider),
-  });
-
-  const [account] = await walletClient.getAddresses();
-  const hash = await walletClient.deployContract({
-    abi: contractABI,
-    account,
-    bytecode: contractByteCode,
-    args: [arg], // arg is the constructor to the smart contract
-  });
-
-  const receipt = await publicClient.waitForTransactionReceipt({ hash });
-
-  const deployedContractAddress = receipt.contractAddress;
-
-  return deployedContractAddress;
-};
-
-// Read from contract
-const readFromContract = async (provider, contractABI, myContractAddress) => {
-  const publicClient = createPublicClient({
-    chain: hederaTestnet, // for hederaTestnet
-    transport: custom(provider),
-  });
-
-  const contractAddress = myContractAddress; // On Sepolia or any chain, replace with your contract address
-
-  // Read message from smart contract
-  const message = await publicClient.readContract({
-    address: contractAddress,
-    abi: contractABI,
-    functionName: "message", // Replace "message" with actual functionName
-  });
-
-  return message;
-};
-
-// Write to contract
-const writeToContract = async (
-  provider,
-  contractABI,
-  myContractAddress,
-  message
-) => {
-  const publicClient = createPublicClient({
-    chain: hederaTestnet,
-    transport: custom(provider),
-  });
-
-  const walletClient = createWalletClient({
-    chain: hederaTestnet,
-    transport: custom(provider),
-  });
-
-  const contractAddress = myContractAddress; // On Sepolia or any chain, replace with your contract address
-  const address = await walletClient.getAddresses();
-
-  // Submit transaction to the blockchain
-  const hash = await walletClient.writeContract({
-    account: address[0],
-    address: contractAddress,
-    abi: JSON.parse(JSON.stringify(contractABI)),
-    functionName: "update", // Replace "update" with actual functionName
-    args: [message],
-  });
-
-  // Send transaction to smart contract to update message
-  const receipt = await publicClient.waitForTransactionReceipt({ hash });
-
-  return receipt;
-};
-
-//Assuming user is already logged in.
-async function getPrivateKey() {
-  const privateKey = await Web3Auth.provider.request({
+  const myPrivateKeyHex = await provider.request({
     method: "eth_private_key",
   });
-  //Do something with privateKey
-  console.log(privateKey);
+
+  if (!myAccountId || !myPrivateKeyHex) {
+    throw new Error(
+      "Environment variables myAccountId and myPrivateKey must be present."
+    );
+  }
+
+  const operatorKey = PrivateKey.fromStringECDSA(myPrivateKeyHex);
+  const client = Client.forTestnet();
+  client.setOperator(myAccountId, operatorKey);
+
+  if (!topicId) {
+    const txResponse = await new TopicCreateTransaction().execute(client);
+    const receipt = await txResponse.getReceipt(client);
+    topicId = receipt.topicId.toString();
+    console.log(`Your Topic ID is: ${topicId}`);
+  }
+
+  const messageData = {
+    fileId: fileId,
+    sender: myAccountId,
+    fileName: fileName,
+    timeStamp: new Date().toISOString(),
+  };
+
+  const messageDataString = JSON.stringify(messageData);
+  const submitMsgTx = new TopicMessageSubmitTransaction({
+    topicId,
+    message: messageDataString,
+  }).freezeWith(client);
+
+  const submitMsgTxSubmit = await submitMsgTx.execute(client);
+  const getReceipt = await submitMsgTxSubmit.getReceipt(client);
+  const transactionStatus = getReceipt.status;
+  console.log("The message transaction status:", transactionStatus.toString());
+
+  return { topicId, status: transactionStatus.toString() };
 }
+
+const uploadToHederaFileService = async (provider, content) => {
+  try {
+    const [myAddress] = await getAccounts(provider);
+
+    const accountResponse = await fetch(
+      `https://testnet.mirrornode.hedera.com/api/v1/accounts/${myAddress}`,
+      { mode: "cors" }
+    );
+
+    if (!accountResponse.ok) {
+      throw new Error(
+        "Failed to fetch account information from Hedera Mirror Node."
+      );
+    }
+
+    const accountData = await accountResponse.json();
+    const myAccountId = accountData.account;
+
+    const myPrivateKeyHex = await provider.request({
+      method: "eth_private_key",
+    });
+
+    if (!myAccountId || !myPrivateKeyHex) {
+      throw new Error(
+        "Environment variables myAccountId and myPrivateKey must be present."
+      );
+    }
+
+    const operatorKey = PrivateKey.fromStringECDSA(myPrivateKeyHex);
+    const client = Client.forTestnet();
+    client.setOperator(myAccountId, operatorKey);
+
+    console.log("Uploading to Hedera...");
+
+    const transaction = new FileCreateTransaction()
+      .setContents(content)
+      .setKeys([operatorKey.publicKey])
+      .setMaxTransactionFee(new Hbar(2))
+      .freezeWith(client);
+
+    const signedTx = await transaction.sign(operatorKey);
+    const txResponse = await signedTx.execute(client);
+    const receipt = await txResponse.getReceipt(client);
+
+    const fileId = receipt.fileId;
+    console.log("File uploaded to Hedera with File ID:", fileId.toString());
+    return fileId.toString();
+  } catch (error) {
+    console.error("Hedera File Service upload error:", error);
+    return null;
+  }
+};
+
+const fetchMessages = async () => {
+  try {
+    const response = await fetch(
+      `https://testnet.mirrornode.hedera.com/api/v1/topics/${topicId}/messages`,
+      { mode: "cors" }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Error fetching messages: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    const messages = data.messages.map((message) => {
+      const decodedMessage = atob(message.message); // decode base64
+      return JSON.parse(decodedMessage); // parse JSON
+    });
+
+    return messages;
+  } catch (error) {
+    console.error("Error retrieving messages:", error);
+  }
+};
+
+const getFileContent = async (provider, fileId) => {
+  const client = await getClient(provider);
+  try {
+    const fileContent = await new FileContentsQuery()
+      .setFileId(fileId)
+      .execute(client);
+    return fileContent.toString(); // Convert file content to a string (assumed to be text)
+  } catch (error) {
+    console.error(`Error retrieving content for fileId ${fileId}:`, error);
+    return null;
+  }
+};
+
+const getAllFiles = async (provider, messages) => {
+  try {
+    const files = [];
+    for (const message of messages) {
+      const fileContent = await getFileContent(provider, message.fileId);
+
+      files.push({
+        fileId: message.fileId,
+        content: fileContent
+          .split(",")
+          .map((code) => String.fromCharCode(code))
+          .join(""),
+        timeStamp: message.timeStamp,
+      });
+    }
+
+    return files;
+  } catch (error) {
+    console.error("Error retrieving files:", error);
+  }
+};
 
 export default {
   getAccounts,
   getBalance,
-  sendTransaction,
-  signMessage,
-  deployContract,
-  readFromContract,
-  writeToContract,
-  getPrivateKey,
+  uploadToHederaFileService,
+  sendMessage,
+  fetchMessages,
+  getAllFiles,
 };

@@ -109,6 +109,20 @@ function RootComponent() {
     console.log("logged out");
   };
 
+  const uploadFile = async (file) => {
+    const response = await HEDERA.uploadToHederaFileService(provider, file);
+    return response;
+  };
+  const sendMessage = async (message, fileName) => {
+    const response = await HEDERA.sendMessage(provider, message, fileName);
+    return response;
+  };
+
+  const getAllFiles = async (messages) => {
+    const response = await HEDERA.getAllFiles(provider, messages);
+    return response;
+  };
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -123,14 +137,19 @@ function RootComponent() {
       ),
       children: [
         { path: "/", element: <App loggedIn={loggedIn} logIn={login} /> },
-        { path: "upload", element: <Upload /> },
+        {
+          path: "upload",
+          element: (
+            <Upload uploadFileToHedera={uploadFile} sendMessage={sendMessage} />
+          ),
+        },
         {
           path: "profile",
           element: <Profile user={user} balance={balance} address={address} />,
         },
         {
-          path: "result",
-          element: <Result />,
+          path: "result/:fileId",
+          element: <Result getAllFiles={getAllFiles} address={address} />,
         },
       ],
     },
