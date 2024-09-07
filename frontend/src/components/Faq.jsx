@@ -1,77 +1,54 @@
 import "../styles/faq.css";
 
 const Faq = () => {
+  const faqData = [
+    {
+      id: "01",
+      question: "What is Eth-Various?",
+      answer:
+        "Eth-Various is a platform that analyzes and identifies problems within smart contract codes in the blockchain ecosystem. It is useful for beginners in Web3 development, developers studying smart contracts, and users curious about whether a smart contract is a scam. The platform offers automated AI-based analysis and provides free all-in-one reports.",
+    },
+    {
+      id: "02",
+      question: "Does it support all languages?",
+      answer:
+        "Currently, Eth-Various supports Solidity. However, future plans include support for additional languages such as JavaScript, Go, and TypeScript.",
+    },
+    {
+      id: "03",
+      question: "What makes Eth-Various unique?",
+      answer:
+        "Eth-Various uses an AI Smart Module with Reinforcement Learning Techniques, specifically Deep Q-Network (DQN), to analyze Solidity contracts. It provides recommendations based on its analysis. The platform uses Flask for API interaction and web services, JSON for data exchange, and Hedera for decentralized data management.",
+    },
+    {
+      id: "04",
+      question: "Do I need to know code to use Eth-Various?",
+      answer:
+        "No, you don’t need to know code to use Eth-Various. The platform allows anyone interested in Web3 and smart contracts to upload their smart contract code and view the analysis results. It's designed to be user-friendly and accessible even for those without coding knowledge.",
+    },
+    {
+      id: "05",
+      question: "Is this free?",
+      answer:
+        "Yes, Eth-Various offers its services for free. It aims to act as a primary firewall to protect users from potential scams in the Web3 space.",
+    },
+  ];
+
   return (
     <div className="container faq">
       <h3>FAQs</h3>
       <div className="questions">
-        <div className="faq-item">
-          <p>01</p>
-          <details>
-            <summary>
-              <h4>What is Eth-Various?</h4>
-            </summary>
-            <p>
-              Eth-Various is a collection of 10,000 unique NFTs on the Ethereum
-              blockchain. Each NFT is unique and programmatically generated.
-            </p>
-          </details>
-        </div>
-
-        <div className="faq-item">
-          <p>02</p>
-          <details>
-            <summary>
-              <h4>Does it support all languages?</h4>
-            </summary>
-            <p>
-              Yes, Eth-Various supports all languages. The text on the NFTs is
-              generated using the text provided by the user, so it can be in any
-              language.
-            </p>
-          </details>
-        </div>
-
-        <div className="faq-item">
-          <p>03</p>
-          <details>
-            <summary>
-              <h4>What makes Eth-Various unique?</h4>
-            </summary>
-            <p>
-              Eth-Various NFTs are unique because they are programmatically
-              generated, ensuring no two NFTs are alike.
-            </p>
-          </details>
-        </div>
-
-        <div className="faq-item">
-          <p>04</p>
-          <details>
-            <summary>
-              <h4>Do i need to know code to use Eth-Various? </h4>
-            </summary>
-            <p>
-              No, you don&lsquo;t need to know code to use Eth-Various. You can
-              simply mint an NFT by providing the text you want on the
-            </p>
-          </details>
-        </div>
-        <div className="faq-item">
-          <p>05</p>
-          <details>
-            <summary>
-              <h4>
-                Can multiple team member in any organization manage contract?
-              </h4>
-            </summary>
-            <p>
-              Yes, multiple team members can manage the contract. You can add
-              multiple team members to the contract and assign them different
-              roles.
-            </p>
-          </details>
-        </div>
+        {faqData.map((faq) => (
+          <div className="faq-item" key={faq.id}>
+            <p>{faq.id}</p>
+            <details>
+              <summary>
+                <h4>{faq.question}</h4>
+              </summary>
+              <p>{faq.answer}</p>
+            </details>
+          </div>
+        ))}
       </div>
     </div>
   );
