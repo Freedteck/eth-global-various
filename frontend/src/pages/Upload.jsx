@@ -40,7 +40,7 @@ const Upload = ({ uploadFileToHedera, sendMessage }) => {
           }
 
           await sendMessage(fileId, file.name);
-          navigate(`/result/${fileId}`, { state: { fileId } });
+          navigate(`/result/${fileId}`, { state: { response } });
         } catch (error) {
           console.error("Error in handleAnalyse:", error);
         } finally {

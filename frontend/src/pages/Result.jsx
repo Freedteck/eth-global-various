@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import "../styles/result.css";
 import HEDERA from "../clients/viemHedera";
 import { useEffect, useState } from "react";
@@ -20,6 +20,8 @@ const Result = ({ getAllFiles, address }) => {
   const { fileId } = useParams();
   const [messages, setMessages] = useState([]);
   const [file, setFile] = useState(null);
+  const location = useLocation();
+  const { response } = location.state || {};
 
   useEffect(() => {
     const getMessages = async () => {
@@ -82,7 +84,8 @@ const Result = ({ getAllFiles, address }) => {
     <div className="container result-container">
       <h2>Analysis Result</h2>
       <pre className="json-result">
-        {!file && <p>Loading...</p>}
+        {!file && !response && <p>Loading...</p>}
+        {!file && <ReactMarkdown>{response}</ReactMarkdown>}
         {file && (
           <ReactMarkdown>
             {decodeContent(file.content.slice(1, -1))}

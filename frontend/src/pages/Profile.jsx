@@ -48,7 +48,7 @@ const Profile = ({ user, address, balance }) => {
           const messages = response.filter(
             (msg) => msg.sender === accountData.account
           );
-          setMessages(messages);
+          setMessages(messages.reverse());
           setLoading(false);
         } catch (error) {
           console.error("Error in getMessages:", error);
@@ -111,7 +111,7 @@ const Profile = ({ user, address, balance }) => {
             </tr>
           </thead>
           <tbody>
-            {!loading && !messages.length > 0 && (
+            {!loading && messages.length === 0 && (
               <tr>
                 <td colSpan="3">No files uploaded yet</td>
               </tr>
